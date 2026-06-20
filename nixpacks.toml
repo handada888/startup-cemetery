@@ -1,0 +1,13 @@
+# Railway build config
+# 1. Install deps
+# 2. Build frontend
+# 3. Start server
+
+[phases.install]
+cmds = ["npm ci"]
+
+[phases.build]
+cmds = ["npm run build"]
+
+[phases.start]
+cmd = "node server.cjs"

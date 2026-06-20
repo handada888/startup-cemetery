@@ -1,0 +1,102 @@
+.incense-btn-wrapper {
+  position: relative;
+  display: inline-flex;
+}
+
+.incense-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(247, 129, 102, 0.1);
+  border: 1px solid rgba(247, 129, 102, 0.3);
+  border-radius: var(--radius);
+  padding: 8px 16px;
+  color: var(--accent);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: visible;
+  
+  &:hover {
+    background: rgba(247, 129, 102, 0.2);
+  }
+  
+  &:active {
+    transform: scale(0.95);
+  }
+  
+  &--lit {
+    background: rgba(247, 129, 102, 0.35);
+    border-color: var(--accent);
+    animation: glow 0.9s ease-out;
+    
+    .incense-btn__candle {
+      animation: candleFlicker 0.2s infinite alternate;
+      filter: brightness(1.4) saturate(1.3);
+    }
+  }
+  
+  &__candle {
+    font-size: 18px;
+    transition: all 0.3s;
+  }
+  
+  &__count {
+    font-family: var(--font-mono);
+    font-size: 16px;
+    font-weight: 700;
+    transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+    
+    &--bump {
+      animation: countBump 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+  }
+  
+  &__label {
+    font-size: 12px;
+    color: var(--text-secondary);
+  }
+}
+
+.incense-particle {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: var(--size);
+  height: var(--size);
+  background: var(--accent);
+  border-radius: 50%;
+  pointer-events: none;
+  animation: particleFly 0.9s ease-out forwards;
+  animation-delay: var(--delay);
+  opacity: 0;
+  box-shadow: 0 0 4px var(--accent);
+}
+
+@keyframes particleFly {
+  0% {
+    opacity: 1;
+    transform: translate(-50%, -50%) rotate(var(--angle)) translateY(0);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(-50%, -50%) rotate(var(--angle)) translateY(var(--distance));
+  }
+}
+
+@keyframes candleFlicker {
+  0% { transform: scale(1); opacity: 1; }
+  100% { transform: scale(1.15); opacity: 0.8; }
+}
+
+@keyframes countBump {
+  0% { transform: scale(1); }
+  30% { transform: scale(1.4); color: #fff; }
+  100% { transform: scale(1); }
+}
+
+@keyframes glow {
+  0% { box-shadow: 0 0 0 0 rgba(247, 129, 102, 0.4); }
+  50% { box-shadow: 0 0 24px 6px rgba(247, 129, 102, 0.3); }
+  100% { box-shadow: 0 0 0 0 rgba(247, 129, 102, 0); }
+}

@@ -1,0 +1,205 @@
+.detail-page {
+  padding-bottom: 100px;
+  
+  &__back {
+    background: none;
+    border: none;
+    color: var(--text-secondary);
+    font-size: 14px;
+    cursor: pointer;
+    padding: 16px 20px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    backdrop-filter: blur(12px);
+    background: rgba(13, 17, 23, 0.85);
+    
+    &:hover {
+      color: var(--accent);
+    }
+  }
+  
+  &__hero {
+    text-align: center;
+    padding: 20px 20px 32px;
+    position: relative;
+    
+    &::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 60px;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, var(--border-color), transparent);
+    }
+  }
+  
+  &__logo {
+    width: 80px;
+    height: 80px;
+    border-radius: 20px;
+    overflow: hidden;
+    background: rgba(255,255,255,0.03);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 16px;
+    font-size: 40px;
+    border: 1px solid rgba(255,255,255,0.06);
+    box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+    
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+  }
+  
+  &__name {
+    font-size: 26px;
+    font-weight: 800;
+    color: var(--text-primary);
+    margin-bottom: 6px;
+    letter-spacing: 1px;
+  }
+  
+  &__fullname {
+    font-size: 13px;
+    color: var(--text-muted);
+    margin-bottom: 12px;
+  }
+  
+  &__status {
+    display: inline-block;
+    padding: 4px 18px;
+    background: rgba(248, 81, 73, 0.12);
+    color: var(--tag-death);
+    border: 1px solid rgba(248, 81, 73, 0.25);
+    border-radius: 20px;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 1px;
+  }
+  
+  &__section {
+    padding: 0 20px;
+    margin-bottom: 24px;
+  }
+  
+  &__desc {
+    font-size: 14px;
+    color: var(--text-secondary);
+    line-height: 1.9;
+  }
+  
+  &__info-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+  }
+  
+  &__analysis {
+    background: rgba(248, 81, 73, 0.04);
+    border: 1px solid rgba(248, 81, 73, 0.12);
+    border-radius: var(--radius);
+    padding: 16px;
+    
+    p {
+      font-size: 14px;
+      color: var(--text-secondary);
+      line-height: 1.9;
+      text-align: justify;
+    }
+  }
+  
+  &__lessons {
+    background: rgba(212, 167, 116, 0.04);
+    border-left: 3px solid var(--accent-gold);
+    border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+    padding: 16px 18px;
+    margin: 0;
+    
+    p {
+      font-size: 14px;
+      color: var(--accent-gold);
+      line-height: 1.9;
+      white-space: pre-line;
+    }
+  }
+  
+  &__funding-summary {
+    margin-bottom: 14px;
+    
+    .funding-total {
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--tag-funding);
+      padding: 8px 14px;
+      background: rgba(63, 185, 80, 0.08);
+      border-radius: var(--radius-sm);
+      display: inline-block;
+    }
+  }
+  
+  &__source {
+    font-size: 12px;
+    color: var(--text-muted);
+    font-style: italic;
+  }
+  
+  &__incense-section {
+    display: flex;
+    justify-content: center;
+    padding: 28px 16px;
+    position: sticky;
+    bottom: 64px;
+    background: linear-gradient(180deg, transparent 0%, var(--bg-primary) 40%);
+    z-index: 5;
+  }
+}
+
+.detail-section-title {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.info-item {
+  background: rgba(255,255,255,0.02);
+  border: 1px solid rgba(48, 54, 61, 0.6);
+  border-radius: var(--radius-sm);
+  padding: 12px 14px;
+  transition: border-color 0.2s;
+  
+  &:hover {
+    border-color: rgba(247, 129, 102, 0.2);
+  }
+  
+  &__label {
+    display: block;
+    font-size: 11px;
+    color: var(--text-muted);
+    margin-bottom: 4px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  
+  &__value {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text-primary);
+    
+    &--highlight {
+      color: var(--accent-gold);
+    }
+  }
+}

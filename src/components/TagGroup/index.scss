@@ -1,0 +1,68 @@
+.tag-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  
+  &--sm .tag {
+    font-size: 11px;
+    padding: 2px 8px;
+  }
+  
+  &--md .tag {
+    font-size: 13px;
+    padding: 4px 12px;
+  }
+}
+
+.tag {
+  display: inline-flex;
+  align-items: center;
+  border-radius: 20px;
+  font-weight: 500;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+  
+  &--death {
+    background: rgba(248, 81, 73, 0.15);
+    color: var(--tag-death);
+    border: 1px solid rgba(248, 81, 73, 0.3);
+  }
+  
+  &--industry {
+    background: rgba(88, 166, 255, 0.15);
+    color: var(--tag-industry);
+    border: 1px solid rgba(88, 166, 255, 0.3);
+  }
+  
+  &--funding {
+    background: rgba(63, 185, 80, 0.15);
+    color: var(--tag-funding);
+    border: 1px solid rgba(63, 185, 80, 0.3);
+  }
+  
+  &--default {
+    background: rgba(139, 148, 158, 0.1);
+    color: var(--text-secondary);
+    border: 1px solid var(--border-color);
+  }
+  
+  &--selected {
+    opacity: 1 !important;
+    border-color: var(--accent) !important;
+    color: var(--accent) !important;
+    background: rgba(247, 129, 102, 0.2) !important;
+  }
+  
+  &--clickable {
+    cursor: pointer;
+    opacity: 0.7;
+    
+    &:hover {
+      opacity: 1;
+    }
+    
+    &:active {
+      transform: scale(0.95);
+    }
+  }
+}

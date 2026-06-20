@@ -2,8 +2,6 @@ import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 import path from 'path';
 
-// GitHub Pages 部署需要设置 base 路径
-// 仓库名是 startup-cemetery，所以 base 是 /startup-cemetery/
 const base = process.env.GITHUB_PAGES ? '/startup-cemetery/' : '/';
 
 export default defineConfig({
@@ -18,5 +16,10 @@ export default defineConfig({
     preprocessorOptions: {
       scss: {},
     },
+  },
+  build: {
+    // 兼容旧版 Safari（iOS 14+）
+    target: 'es2017',
+    chunkSizeWarningLimit: 1500,
   },
 });

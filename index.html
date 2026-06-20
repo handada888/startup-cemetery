@@ -1,13 +1,34 @@
 <!doctype html>
-<html lang="en">
+<html lang="zh-CN">
   <head>
     <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <meta name="description" content="创业墓地 - 记录和复盘失败创业公司案例，从失败中汲取力量" />
+    <meta name="theme-color" content="#0d1117" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="创业墓地" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>startup-cemetery</title>
+    <title>🪦 创业墓地 - 失败创业公司案例库</title>
+    <style>
+      /* Safari 加载前的初始样式，避免白屏/乱码 */
+      html, body { margin: 0; padding: 0; background: #0d1117; }
+      #root { min-height: 100vh; }
+      #loading {
+        display: flex; align-items: center; justify-content: center;
+        height: 100vh; color: #6e7681; font-family: -apple-system, sans-serif;
+        font-size: 14px; flex-direction: column; gap: 12px;
+      }
+      #loading .icon { font-size: 40px; }
+    </style>
   </head>
   <body>
-    <div id="root"></div>
+    <div id="root">
+      <div id="loading">
+        <span class="icon">🪦</span>
+        <span>正在加载创业墓地...</span>
+      </div>
+    </div>
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>

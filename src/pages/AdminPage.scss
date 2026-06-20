@@ -272,3 +272,69 @@
     flex-direction: column;
   }
 }
+
+// Token Section
+.admin-token-section {
+  margin: 0 20px 16px;
+}
+
+.admin-token-form {
+  background: rgba(88, 166, 255, 0.05);
+  border: 1px solid rgba(88, 166, 255, 0.2);
+  border-radius: var(--radius);
+  padding: 16px;
+  
+  h3 {
+    font-size: 15px;
+    color: var(--text-primary);
+    margin-bottom: 8px;
+  }
+  
+  a {
+    color: var(--tag-industry);
+    text-decoration: underline;
+  }
+}
+
+.admin-token-hint {
+  font-size: 13px;
+  color: var(--text-secondary);
+  line-height: 1.8;
+  margin-bottom: 12px;
+}
+
+.admin-token-input-row {
+  display: flex;
+  gap: 8px;
+  
+  input {
+    flex: 1;
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-sm);
+    padding: 10px 12px;
+    color: var(--text-primary);
+    font-size: 14px;
+    outline: none;
+    
+    &:focus { border-color: var(--accent); }
+    &::placeholder { color: var(--text-muted); }
+  }
+}
+
+.admin-token-status {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: rgba(63, 185, 80, 0.05);
+  border: 1px solid rgba(63, 185, 80, 0.2);
+  border-radius: var(--radius);
+  padding: 12px 16px;
+}
+
+.admin-token-badge {
+  font-size: 13px;
+  color: var(--tag-funding);
+  font-weight: 600;
+  flex: 1;
+}

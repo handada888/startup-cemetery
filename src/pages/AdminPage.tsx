@@ -38,17 +38,42 @@ export default function AdminPage() {
   const [form, setForm] = useState<Partial<DeadCompany>>(EMPTY_FORM);
   const [saving, setSaving] = useState(false);
   const [confirmDelete, setConfirmDelete] = useState<DeadCompany | null>(null);
+  const [githubToken, setGithubToken] = useState(localStorage.getItem('cemetery_github_token') || '');
+  const [showTokenInput, setShowTokenInput] = useState(!localStorage.getItem('cemetery_github_token'));
+  const [tokenInput, setTokenInput] = useState('');
 
   const refresh = useCallback(async () => {
     setLoading(true);
-    const data = await loadCompanies();
-    setCompanies(data);
+    try {
+      const data = await loadCompanies();
+      setCompanies(data);
+    } catch (err) {
+      console.error('加载数据失败:', err);
+    }
     setLoading(false);
   }, []);
 
   useEffect(() => {
     refresh();
   }, [refresh]);
+
+  const handleSaveToken = () => {
+    if (!tokenInput.trim()) {
+      alert('请输入 GitHub Token');
+      return;
+    }
+    localStorage.setItem('cemetery_github_token', tokenInput.trim());
+    setGithubToken(tokenInput.trim());
+    setShowTokenInput(false);
+    setTokenInput('');
+    refresh();
+  };
+
+  const handleClearToken = () => {
+    localStorage.removeItem('cemetery_github_token');
+    setGithubToken('');
+    setShowTokenInput(true);
+  };
 
   const filtered = companies.filter(c =>
     !keyword || c.name.includes(keyword) || (c.fullName || '').includes(keyword)
@@ -134,6 +159,34 @@ export default function AdminPage() {
         <h1>🔧 管理后台</h1>
         <p>共 {companies.length} 条案例数据</p>
       </header>
+
+      {/* GitHub Token 设置 */}
+      <div className="admin-token-section">
+        {showTokenInput ? (
+          <div className="admin-token-form">
+            <h3>🔑 设置 GitHub Token（用于读写数据）</h3>
+            <p className="admin-token-hint">
+              在 GitHub 创建 Token（勾选 repo 权限）：<br />
+              <a href="https://github.com/settings/tokens/new" target="_blank" rel="noopener">👉 点击创建 Token</a>
+            </p>
+            <div className="admin-token-input-row">
+              <input
+                type="password"
+                value={tokenInput}
+                onChange={e => setTokenInput(e.target.value)}
+                placeholder="粘贴你的 GitHub Token (ghp_xxx...)"
+              />
+              <button className="admin-btn admin-btn--primary" onClick={handleSaveToken}>保存</button>
+            </div>
+          </div>
+        ) : (
+          <div className="admin-token-status">
+            <span className="admin-token-badge">✅ Token 已设置</span>
+            <button className="admin-btn admin-btn--sm admin-btn--cancel" onClick={handleClearToken}>清除 Token</button>
+            <button className="admin-btn admin-btn--sm admin-btn--primary" onClick={refresh}>🔄 刷新数据</button>
+          </div>
+        )}
+      </div>
 
       <div className="admin-page__toolbar">
         <input

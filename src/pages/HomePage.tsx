@@ -17,7 +17,9 @@ export default function HomePage() {
   const [loading, setLoading] = useState(true);
   const [showFilter, setShowFilter] = useState(false);
   const [showScrollTop, setShowScrollTop] = useState(false);
+  const [visibleCount, setVisibleCount] = useState(30);
   const listRef = useRef<HTMLDivElement>(null);
+  const sentinelRef = useRef<HTMLDivElement>(null);
   const navigate = useNavigate();
   const [filters, setFilters] = useState<FilterState>({
     industries: [],
@@ -47,11 +49,37 @@ export default function HomePage() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  // Reset visible count whenever the filter/sort changes
+  useEffect(() => {
+    setVisibleCount(30);
+  }, [filters]);
+
   const filtered = useMemo(() => {
     let result = filterCompanies(companies, filters);
     result = sortCompanies(result, filters.sortBy, filters.sortOrder);
     return result;
   }, [companies, filters]);
+
+  const visibleCompanies = useMemo(
+    () => filtered.slice(0, visibleCount),
+    [filtered, visibleCount]
+  );
+
+  // Infinite scroll: load more when sentinel enters viewport
+  useEffect(() => {
+    const el = sentinelRef.current;
+    if (!el) return;
+    const observer = new IntersectionObserver(
+      entries => {
+        if (entries[0].isIntersecting && visibleCount < filtered.length) {
+          setVisibleCount(c => Math.min(c + 30, filtered.length));
+        }
+      },
+      { rootMargin: '300px' }
+    );
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, [visibleCount, filtered.length]);
 
   const handleIncense = useCallback((id: string) => {
     addIncense(id);
@@ -126,9 +154,19 @@ export default function HomePage() {
             action={{ label: '去投稿', onClick: () => navigate('/submit') }}
           />
         ) : (
-          filtered.map(company => (
+          visibleCompanies.map(company => (
             <TombstoneCard key={company.id} company={company} onIncense={handleIncense} />
           ))
+        )}
+        {!loading && visibleCompanies.length < filtered.length && (
+          <div className="load-more" ref={sentinelRef}>
+            <button
+              className="load-more__btn"
+              onClick={() => setVisibleCount(c => Math.min(c + 30, filtered.length))}
+            >
+              加载更多（已显示 {visibleCompanies.length} / {filtered.length}）
+            </button>
+          </div>
         )}
       </div>
 

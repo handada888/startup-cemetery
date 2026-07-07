@@ -2,7 +2,7 @@ import './index.scss';
 
 interface TagGroupProps {
   tags: string[];
-  variant?: 'death' | 'industry' | 'funding' | 'default';
+  variant?: 'death' | 'industry' | 'funding' | 'country' | 'default';
   size?: 'sm' | 'md';
   onTagClick?: (tag: string) => void;
   selectedTags?: string[];

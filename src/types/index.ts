@@ -74,6 +74,7 @@ export interface DeadCompany {
   industry: string;
   subIndustry?: string;
   location: string;
+  country?: string;
   foundedDate: string;
   closedDate: string;
   lifespan: string;
@@ -96,6 +97,7 @@ export interface FilterState {
   industries: string[];
   deathReasons: string[];
   fundingStages: string[];
+  countries: string[];
   yearRange: [number, number];
   lifespanRange: [number, number];
   keyword: string;

@@ -146,6 +146,7 @@ export function filterCompanies(companies: DeadCompany[], filters: FilterState):
     if (filters.industries.length > 0 && !filters.industries.includes(c.industry)) return false;
     if (filters.deathReasons.length > 0 && !c.deathReasons.some(r => filters.deathReasons.includes(r))) return false;
     if (filters.fundingStages.length > 0 && !filters.fundingStages.includes(c.fundingStatus)) return false;
+    if (filters.countries.length > 0 && !filters.countries.includes(c.country || '国外')) return false;
     if (filters.keyword && !c.name.includes(filters.keyword) && !c.description.includes(filters.keyword)) return false;
 
     const closeYear = new Date(c.closedDate).getFullYear();

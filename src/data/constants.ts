@@ -45,6 +45,8 @@ export const INDUSTRY_LABELS: Record<string, string> = {
 
 export const INDUSTRIES = Object.values(IndustryCategory);
 
+export const COUNTRIES = ['中国', '国外'];
+
 export const FUNDING_STATUS_LABELS: Record<string, string> = {
   '尚未获投': '尚未获投',
   '天使轮': '天使轮',

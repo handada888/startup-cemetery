@@ -17,14 +17,15 @@ export default function HomePage() {
   const [loading, setLoading] = useState(true);
   const [showFilter, setShowFilter] = useState(false);
   const [showScrollTop, setShowScrollTop] = useState(false);
-  const [visibleCount, setVisibleCount] = useState(30);
+  const [page, setPage] = useState(1);
+  const PAGE_SIZE = 15;
   const listRef = useRef<HTMLDivElement>(null);
-  const sentinelRef = useRef<HTMLDivElement>(null);
   const navigate = useNavigate();
   const [filters, setFilters] = useState<FilterState>({
     industries: [],
     deathReasons: [],
     fundingStages: [],
+    countries: [],
     yearRange: [2000, 2025],
     lifespanRange: [0, 200],
     keyword: '',
@@ -49,9 +50,9 @@ export default function HomePage() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  // Reset visible count whenever the filter/sort changes
+  // Reset to first page whenever the filter/sort changes
   useEffect(() => {
-    setVisibleCount(30);
+    setPage(1);
   }, [filters]);
 
   const filtered = useMemo(() => {
@@ -60,26 +61,12 @@ export default function HomePage() {
     return result;
   }, [companies, filters]);
 
-  const visibleCompanies = useMemo(
-    () => filtered.slice(0, visibleCount),
-    [filtered, visibleCount]
+  const totalPages = Math.max(1, Math.ceil(filtered.length / PAGE_SIZE));
+  const safePage = Math.min(page, totalPages);
+  const pageCompanies = useMemo(
+    () => filtered.slice((safePage - 1) * PAGE_SIZE, safePage * PAGE_SIZE),
+    [filtered, safePage]
   );
-
-  // Infinite scroll: load more when sentinel enters viewport
-  useEffect(() => {
-    const el = sentinelRef.current;
-    if (!el) return;
-    const observer = new IntersectionObserver(
-      entries => {
-        if (entries[0].isIntersecting && visibleCount < filtered.length) {
-          setVisibleCount(c => Math.min(c + 30, filtered.length));
-        }
-      },
-      { rootMargin: '300px' }
-    );
-    observer.observe(el);
-    return () => observer.disconnect();
-  }, [visibleCount, filtered.length]);
 
   const handleIncense = useCallback((id: string) => {
     addIncense(id);
@@ -154,21 +141,46 @@ export default function HomePage() {
             action={{ label: '去投稿', onClick: () => navigate('/submit') }}
           />
         ) : (
-          visibleCompanies.map(company => (
+          pageCompanies.map(company => (
             <TombstoneCard key={company.id} company={company} onIncense={handleIncense} />
           ))
         )}
-        {!loading && visibleCompanies.length < filtered.length && (
-          <div className="load-more" ref={sentinelRef}>
-            <button
-              className="load-more__btn"
-              onClick={() => setVisibleCount(c => Math.min(c + 30, filtered.length))}
-            >
-              加载更多（已显示 {visibleCompanies.length} / {filtered.length}）
-            </button>
-          </div>
-        )}
       </div>
+
+      {!loading && filtered.length > 0 && (
+        <div className="pagination">
+          <button
+            className="pagination__btn"
+            disabled={safePage <= 1}
+            onClick={() => setPage(p => Math.max(1, p - 1))}
+          >
+            ← 上一页
+          </button>
+          <div className="pagination__pages">
+            {Array.from({ length: totalPages }, (_, i) => i + 1)
+              .filter(p => Math.abs(p - safePage) <= 2 || p === 1 || p === totalPages)
+              .map((p, idx, arr) => (
+                <span key={p} className="pagination__group">
+                  {idx > 0 && p - arr[idx - 1] > 1 && <span className="pagination__ellipsis">…</span>}
+                  <button
+                    className={`pagination__num ${p === safePage ? 'pagination__num--active' : ''}`}
+                    onClick={() => setPage(p)}
+                  >
+                    {p}
+                  </button>
+                </span>
+              ))}
+          </div>
+          <span className="pagination__info">{safePage} / {totalPages} 页</span>
+          <button
+            className="pagination__btn"
+            disabled={safePage >= totalPages}
+            onClick={() => setPage(p => Math.min(totalPages, p + 1))}
+          >
+            下一页 →
+          </button>
+        </div>
+      )}
 
       {showScrollTop && (
         <button className="scroll-top-btn" onClick={scrollToTop}>

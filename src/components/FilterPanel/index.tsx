@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { FilterState } from '../../types';
-import { DEATH_REASONS, INDUSTRIES, FUNDING_STATUSES, SORT_OPTIONS } from '../../data/constants';
+import { DEATH_REASONS, INDUSTRIES, FUNDING_STATUSES, COUNTRIES, SORT_OPTIONS } from '../../data/constants';
 import TagGroup from '../TagGroup';
 import './index.scss';
 
@@ -27,6 +27,7 @@ export default function FilterPanel({ filters, onChange, onClose }: FilterPanelP
       industries: [],
       deathReasons: [],
       fundingStages: [],
+      countries: [],
       yearRange: [2000, 2025],
       lifespanRange: [0, 200],
       keyword: filters.keyword,
@@ -74,6 +75,16 @@ export default function FilterPanel({ filters, onChange, onClose }: FilterPanelP
               variant="funding"
               selectedTags={localFilters.fundingStages}
               onTagClick={tag => setLocalFilters(f => ({ ...f, fundingStages: toggleArrayItem(f.fundingStages, tag) }))}
+            />
+          </div>
+
+          <div className="filter-section">
+            <h4 className="filter-section__title">🌍 国家 / 地区</h4>
+            <TagGroup
+              tags={COUNTRIES}
+              variant="country"
+              selectedTags={localFilters.countries}
+              onTagClick={tag => setLocalFilters(f => ({ ...f, countries: toggleArrayItem(f.countries, tag) }))}
             />
           </div>
           

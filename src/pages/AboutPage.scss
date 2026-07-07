@@ -90,3 +90,62 @@
     }
   }
 }
+
+  .changelog {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+
+    &__item {
+      border-left: 3px solid var(--accent-color, #f78166);
+      background: rgba(255, 255, 255, 0.03);
+      border-radius: 0 var(--radius, 12px) var(--radius, 12px) 0;
+      padding: 12px 14px;
+    }
+
+    &__head {
+      display: flex;
+      align-items: baseline;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 8px;
+    }
+
+    &__ver {
+      font-weight: 700;
+      color: var(--accent-color, #f78166);
+      font-size: 15px;
+    }
+
+    &__date {
+      font-size: 12px;
+      color: var(--text-muted, #888);
+    }
+
+    &__title {
+      font-size: 14px;
+      color: var(--text-color, #e8e6f0);
+      font-weight: 600;
+    }
+
+    &__list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+
+      li {
+        font-size: 13px;
+        color: var(--text-secondary, #b8b4c8);
+        padding: 4px 0 4px 16px;
+        position: relative;
+        line-height: 1.6;
+
+        &::before {
+          content: '•';
+          position: absolute;
+          left: 2px;
+          color: var(--accent-color, #f78166);
+        }
+      }
+    }
+  }

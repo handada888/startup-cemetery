@@ -1,14 +1,28 @@
 import ParticleBg from '../components/ParticleBg';
+import versionData from '../version.json';
 import './AboutPage.scss';
 
+interface ChangeLogEntry {
+  version: string;
+  date: string;
+  title: string;
+  changes: string[];
+}
+
 export default function AboutPage() {
+  const { version, changelog = [] } = versionData as {
+    version: string;
+    releasedAt?: string;
+    changelog: ChangeLogEntry[];
+  };
+
   return (
     <div className="page about-page">
       <ParticleBg />
       <header className="about-page__header">
         <span className="about-page__logo">🪦</span>
         <h1>创业墓地</h1>
-        <p className="about-page__version">v1.0.0</p>
+        <p className="about-page__version">v{version}</p>
       </header>
 
       <div className="about-page__content">
@@ -65,6 +79,26 @@ export default function AboutPage() {
             用户投稿内容仅代表投稿者个人观点，不代表本平台立场。
             如涉及侵权或信息错误，请联系我们进行修正。
           </p>
+        </section>
+
+        <section className="about-section">
+          <h2>📌 版本更新日志</h2>
+          <div className="changelog">
+            {changelog.map((log) => (
+              <div className="changelog__item" key={log.version}>
+                <div className="changelog__head">
+                  <span className="changelog__ver">v{log.version}</span>
+                  <span className="changelog__date">{log.date}</span>
+                  <span className="changelog__title">{log.title}</span>
+                </div>
+                <ul className="changelog__list">
+                  {log.changes.map((c, i) => (
+                    <li key={i}>{c}</li>
+                  ))}
+                </ul>
+              </div>
+            ))}
+          </div>
         </section>
 
         <footer className="about-page__footer">

@@ -5,11 +5,12 @@ const tabs = [
   { path: '/', label: '墓地', icon: '🪦' },
   { path: '/stats', label: '统计', icon: '📊' },
   { path: '/submit', label: '投稿', icon: '✍️' },
+  { path: '/version', label: '版本', icon: '🏷️' },
   { path: '/about', label: '关于', icon: 'ℹ️' },
 ];
 
 // Pages where TabBar should be visible
-const tabPaths = ['/', '/stats', '/submit', '/about'];
+const tabPaths = ['/', '/stats', '/submit', '/version', '/about'];
 
 export default function TabBar() {
   const location = useLocation();

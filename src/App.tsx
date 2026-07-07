@@ -7,6 +7,7 @@ import StatsPage from './pages/StatsPage';
 import SubmitPage from './pages/SubmitPage';
 import AboutPage from './pages/AboutPage';
 import AdminPage from './pages/AdminPage';
+import VersionPage from './pages/VersionPage';
 import './App.scss';
 
 function App() {
@@ -19,6 +20,7 @@ function App() {
           <Route path="/stats" element={<StatsPage />} />
           <Route path="/submit" element={<SubmitPage />} />
           <Route path="/about" element={<AboutPage />} />
+          <Route path="/version" element={<VersionPage />} />
           <Route path="/admin" element={<AdminPage />} />
         </Routes>
         <TabBar />

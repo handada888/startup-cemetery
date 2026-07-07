@@ -12,13 +12,16 @@ function getGitHubToken(): string | null {
   return localStorage.getItem('cemetery_github_token');
 }
 
-// 加载公司数据：先尝试 GitHub API（有 token 时），否则用静态 JSON
+// 加载公司数据：
+// - 有 GitHub Token（管理员）：读取 main 分支的草稿数据（src/data/companies.json）
+// - 无 Token（公共访客）：读取已发布的 data/companies.json（gh-pages 原始文件），
+//   失败则回退到打包的静态数据
 export async function loadCompanies(): Promise<DeadCompany[]> {
   let preloaded: DeadCompany[];
 
-  // 尝试从 GitHub API 加载最新数据
   const token = getGitHubToken();
   if (token) {
+    // 管理员：直接读取 main 分支草稿源
     try {
       const resp = await fetch(
         `https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/contents/${GITHUB_DATA_PATH}?ref=${GITHUB_BRANCH}`,
@@ -35,8 +38,10 @@ export async function loadCompanies(): Promise<DeadCompany[]> {
       preloaded = (await import('../data/companies.json')).default as DeadCompany[];
     }
   } else {
-    // 没有 token，用打包的静态数据
-    preloaded = (await import('../data/companies.json')).default as DeadCompany[];
+    // 公共访客：优先读取已发布数据（gh-pages 上的原始文件）
+    preloaded = await loadPublishedCompanies().catch(async () =>
+      (await import('../data/companies.json')).default as DeadCompany[]
+    );
   }
 
   const submissions = getSubmissions<DeadCompany>();
@@ -48,6 +53,16 @@ export async function loadCompanies(): Promise<DeadCompany[]> {
   }));
 
   return allCompanies;
+}
+
+// 从已部署站点读取发布版数据（data/companies.json）
+async function loadPublishedCompanies(): Promise<DeadCompany[]> {
+  const url = `${import.meta.env.BASE_URL}data/companies.json`;
+  const resp = await fetch(url, { cache: 'no-store' });
+  if (!resp.ok) throw new Error('未找到已发布数据');
+  const data = await resp.json();
+  if (!Array.isArray(data)) throw new Error('数据格式错误');
+  return data as DeadCompany[];
 }
 
 // 获取当前文件的 GitHub SHA（更新文件时需要）
